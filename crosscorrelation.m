@@ -65,3 +65,16 @@ title('y vs nx')
 subplot(3,1,3);stem(nrxy,rxy./101)
 title('autocorrelation')
 
+sr = zeros(1,4);
+bits = 2;
+L = 2^bits;
+for i=1:4
+    sr(i) = cummulative_sum(i)*(L-1);
+end
+pixels = zeros(1,4);
+for i=1:4
+    pixels(i) = round(sr(i));
+end
+pixels
+plot(pixels)
+stem(pixels)
