@@ -1,3 +1,5 @@
+% very basic code of convulation
+
 function [y,ny] = conv_m(x,nx,h,nh)
 
 
