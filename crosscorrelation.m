@@ -64,4 +64,5 @@ subplot(3,1,2);stem(nx,y)
 title('y vs nx')
 subplot(3,1,3);stem(nrxy,rxy./101)
 title('autocorrelation')
+% basic and easy code
 
