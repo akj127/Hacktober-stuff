@@ -1,0 +1,150 @@
+/* Extra small devices (portrait phones, less than 576px) */
+@media (max-width: 575.98px) {
+    .text-center-sm {
+        text-align: center !important;
+    }
+    .bg-hero h1 {
+        font-size: 40px !important;
+    }
+    .brands {
+        margin-top: 60px !important;
+    }
+    .form-control {
+        width: 50% !important;
+    }
+}
+
+/* Small devices (landscape phones, 576px and up) */
+@media (min-width: 576px) and (max-width: 767.98px) {
+    .brands {
+        margin-top: 170px !important;
+    }
+    .form-control {
+        width: 50% !important;
+    }
+}
+
+/* Medium devices (tablets, 768px and up) */
+@media (min-width: 768px) and (max-width: 991.98px) {
+    .brands {
+        margin-top: 170px !important;
+    }
+    .form-control {
+        width: 50% !important;
+    }
+}
+
+/* Large devices (desktops, 992px and up) */
+@media (min-width: 992px) and (max-width: 1199.98px) {
+    .brands {
+        margin-top: 200px !important;
+    }
+}
+
+/* Extra large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+}
+
+body {
+    scroll-behavior: smooth;
+    font-family: "Mulish", sans-serif;
+}
+
+.btn-float {
+    z-index: 1000;
+    padding: 4px 8px;
+    color: #fff;
+    border-radius: 50px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #019da5;
+    border-color: #f85b18 !important;
+}
+
+.btn-success:hover {
+    color: #fff;
+    background-color: #0299a1;
+    border-color: #00B1B9 !important;
+}
+
+.btn-success:active,
+.btn-success:focus {
+    color: #fff !important;
+    background-color: #00B1B9 !important;
+    border-color: #00B1B9 !important;
+    box-shadow: 0 0 0 0.2rem rgb(222 170 12 / 0%);
+}
+
+.btn-warning {
+    color: #fff;
+    background-color: #f85b18;
+    border-color: #f85b18 !important;
+}
+
+.btn-warning:hover {
+    color: #fff;
+    background-color: #f85b18;
+    border-color: #f85b18 !important;
+}
+
+.btn-warning:active,
+.btn-warning:focus {
+    color: #fff !important;
+    background-color: #f85b18 !important;
+    border-color: #f85b18 !important;
+    box-shadow: 0 0 0 0.2rem rgb(222 170 12 / 0%);
+}
+
+.navbar-brand {
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.bg-hero {
+    background: url(../img/bg-hero.png);
+    height: 750px; /* You must set a specified height */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+}
+
+.bg-hero h1 {
+    font-size: 62px;
+}
+
+.text-white-80 {
+    color: #f1f1f1 !important;
+    font-size: 18px;
+}
+
+.brands {
+    margin-top: 270px;
+}
+
+.bg-teal {
+    background-color: #00b1b9;
+}
+
+.subscription {
+    background: url(../img/Subscription.png);
+    height: 450px; /* You must set a specified height */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Do not repeat the image */
+    background-size: cover; /* Resize the background image to cover the entire container */
+}
+
+.text-subscription {
+    padding-top: 130px;
+}
+
+.form-control {
+    width: 80%;
+}
+
+.a-teal:hover {
+    color: #00b1b9 !important;
+}
