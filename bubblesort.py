@@ -2,7 +2,7 @@
 
 def bubbleSort(arr): 
 	n = len(arr) 
-
+	
 	# Traverse through all array elements 
 	for i in range(n): 
 
@@ -22,4 +22,4 @@ bubbleSort(arr)
 
 print ("Sorted array is:") 
 for i in range(len(arr)): 
-	print ("%d" %arr[i]), 
+	print(arr[i], end=' ')
