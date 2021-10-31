@@ -57,7 +57,7 @@ public class Cube
     Scanner jk = new Scanner(System.in);
     System.out.println("Enter Size of side of Cube");
     int a = jk.nextInt();
-    # System always at origin intially.
+    // System always at origin intially.
   }
 
 }
