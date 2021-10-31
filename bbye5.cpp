@@ -90,8 +90,9 @@ int main()
 	
 	/* Reverse doubly linked list */
 	reverse(&head);
+	cout << "\n";
 	
-	cout << "\nReversed Linked list" << endl;
+	cout << "Reversed Linked list" << endl;
 	printList(head);		
 	
 	return 0;
