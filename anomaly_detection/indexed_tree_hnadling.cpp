@@ -1,71 +1,83 @@
-// Copyright (c) 2003-2006  INRIA Sophia-Antipolis (France).
-// All rights reserved.
-//
-// This file is part of CGAL (www.cgal.org).
-//
-// $URL$
-// $Id$
-// SPDX-License-Identifier: GPL-3.0-or-later OR LicenseRef-Commercial
-//
-// Author(s)     : Monique Teillaud, Sylvain Pion
+#include <CGAL/Simple_cartesian.h>
+#include <CGAL/Surface_mesh.h>
 
-// Partially supported by the IST Programme of the EU as a Shared-cost
-// RTD (FET Open) Project under Contract No  IST-2000-26473
-// (ECG - Effective Computational Geometry for Curves and Surfaces)
-// and a STREP (FET Open) Project under Contract No  IST-006413
-// (ACS -- Algorithms for Complex Shapes)
+#include <CGAL/AABB_tree.h>
+#include <CGAL/AABB_traits.h>
+#include <CGAL/AABB_face_graph_triangle_primitive.h>
+#include <CGAL/Polygon_mesh_processing/compute_normal.h>
+#include <CGAL/Polygon_mesh_processing/orientation.h>
 
-#ifndef CGAL_ALGEBRAIC_KERNEL_FOR_CIRCLES_POLYNOMIALS_2_2_H
-#define CGAL_ALGEBRAIC_KERNEL_FOR_CIRCLES_POLYNOMIALS_2_2_H
+#include <iostream>
+#include <fstream>
 
-#include <CGAL/license/Circular_kernel_2.h>
+typedef CGAL::Simple_cartesian<double> K;
+typedef K::FT FT;
+typedef K::Point_3 Point;
+typedef K::Vector_3 Vector;
+typedef K::Ray_3 Ray;
 
+typedef CGAL::Surface_mesh<Point> Mesh;
+typedef boost::graph_traits<Mesh>::face_descriptor face_descriptor;
+typedef boost::graph_traits<Mesh>::halfedge_descriptor halfedge_descriptor;
 
-//////////// FIXME - pb RT (cas general Polynomial_2_2) ou FT (ici)
+typedef CGAL::AABB_face_graph_triangle_primitive<Mesh> Primitive;
+typedef CGAL::AABB_traits<K, Primitive> Traits;
+typedef CGAL::AABB_tree<Traits> Tree;
+typedef boost::optional<Tree::Intersection_and_primitive_id<Ray>::Type> Ray_intersection;
 
-#include <CGAL/enum.h>
-
-namespace CGAL {
-
-// polynomials of the form (X-a)^2 + (Y-b)^2 - R^2
-template < typename FT_ >
-class Polynomial_for_circles_2_2
+struct Skip
 {
-  FT_ rep[3]; // stores a, b, R^2
+  face_descriptor fd;
 
-public:
+  Skip(const face_descriptor fd)
+    : fd(fd)
+  {}
 
-  typedef FT_ FT;
-
-  Polynomial_for_circles_2_2(){}
-
-  Polynomial_for_circles_2_2(const FT & a, const FT & b, const FT & rsq)
-  {
-    rep[0]=a;
-    rep[1]=b;
-    rep[2]=rsq;
+  bool operator()(const face_descriptor& t) const
+  { if(t == fd){
+      std::cerr << "ignore " << t  <<std::endl;
+    };
+    return(t == fd);
   }
 
-  const FT & a() const
-  { return rep[0]; }
-
-  const FT & b() const
-  { return rep[1]; }
-
-  const FT & r_sq() const
-  { return rep[2]; }
 };
 
-template < typename FT >
-bool
-operator == ( const Polynomial_for_circles_2_2<FT> & p1,
-              const Polynomial_for_circles_2_2<FT> & p2 )
+int main(int argc, char* argv[])
 {
-  return( (p1.a() == p2.a()) &&
-              (p1.b() == p2.b()) &&
-              (p1.r_sq() == p2.r_sq()) );
+  const std::string filename = (argc > 1) ? argv[1] : CGAL::data_file_path("meshes/tetrahedron.off");
+
+  Mesh mesh;
+  if(!CGAL::IO::read_polygon_mesh(filename, mesh))
+  {
+    std::cerr << "Invalid input." << std::endl;
+    return 1;
+  }
+
+  Tree tree(faces(mesh).first, faces(mesh).second, mesh);
+
+  double d = CGAL::Polygon_mesh_processing::is_outward_oriented(mesh)?-1:1;
+
+  for(face_descriptor fd : faces(mesh))
+  {
+    halfedge_descriptor hd = halfedge(fd,mesh);
+    Point p = CGAL::centroid(mesh.point(source(hd,mesh)),
+                             mesh.point(target(hd,mesh)),
+                             mesh.point(target(next(hd,mesh),mesh)));
+    Vector v = CGAL::Polygon_mesh_processing::compute_face_normal(fd,mesh);
+
+    Ray ray(p,d * v);
+    Skip skip(fd);
+    Ray_intersection intersection = tree.first_intersection(ray, skip);
+    if(intersection)
+    {
+      if(boost::get<Point>(&(intersection->first))){
+        const Point* p =  boost::get<Point>(&(intersection->first) );
+        std::cout <<  *p << std::endl;
+      }
+    }
+  }
+
+  std::cerr << "done" << std::endl;
+
+  return 0;
 }
-
-} //namespace CGAL
-
-#endif //CGAL_ALGEBRAIC_KERNEL_FOR_CIRCLES_POLYNOMIALS_2_2_H
