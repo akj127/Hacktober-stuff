@@ -44,6 +44,7 @@ public:
     rep[0]=a;
     rep[1]=b;
     rep[2]=rsq;
+    rep[4] = adf
   }
 
   const FT & a() const
