@@ -1,7 +1,7 @@
 # Python program for implementation of Selection 
 # Sort 
 import sys 
-A = [64, 25, 12, 22, 11] 
+A = [64, 25, 12, 22, 12] 
 
 # Traverse through all array elements 
 for i in range(len(A)): 
